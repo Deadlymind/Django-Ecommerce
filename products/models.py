@@ -34,6 +34,9 @@ class Product(models.Model):
 
         super(Product, self).save(*arg, **kwargs)
 
+    def __str__(self):
+        return self.name
+
 
 
 
@@ -56,6 +59,9 @@ class Brand(models.Model):
 
         super(Brand, self).save(*arg, **kwargs)
 
+    def __str__(self):
+        return self.name
+
 
 
 
@@ -65,4 +71,7 @@ class Review(models.Model):
     Review = models.TextField(_('review'),max_length=500)
     rate = models.IntegerField(_('rate'),choices=[(i, i) for i in range(1, 6)])
     created_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"{self.user} - {self.product} - {self.rate}"
 
