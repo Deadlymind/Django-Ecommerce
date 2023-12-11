@@ -1,7 +1,7 @@
 Products:
     data:
     - name
-    - flag (new, sale,)
+    - flag (new, sale, feature)
     - price
     - image
     - reviews:
