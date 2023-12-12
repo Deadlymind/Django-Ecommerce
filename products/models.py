@@ -28,7 +28,7 @@ class Product(models.Model):
 
     tags = TaggableManager()
 
-    slug = models.SlugField(blank=True,null=True)
+    slug = models.SlugField(blank=True,null=True, unique=True)
 
     def save(self, *arg, **kwargs):
         self.slug = slugify(self.name) 
