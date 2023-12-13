@@ -44,5 +44,5 @@ def seed_reviews():
 
 
 
-seed_brand(200)
+# seed_brand(200)
 seed_products(1000)
