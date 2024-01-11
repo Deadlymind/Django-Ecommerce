@@ -41,7 +41,6 @@ class Product(models.Model):
     
     def review_count(self):
         reviews = self.review_product.all().count()
-    
         return reviews
     
     def avg_rate(self):
