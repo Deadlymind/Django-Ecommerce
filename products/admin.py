@@ -8,6 +8,7 @@ class ProductImageInline(admin.TabularInline):
 
 class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductImageInline]
+    list_display = ['name', 'review_count', 'avg_rate']
 
 
 admin.site.register(Product,ProductAdmin)
