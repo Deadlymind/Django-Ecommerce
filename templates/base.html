@@ -181,20 +181,26 @@
                             </ul>
                             <div class="navbar-info-group">
                                 <div class="navbar-info">
-                                    <i class="icofont-ui-touch-phone"></i>
-                                    <p>
-                                        <small>call us</small>
-                                        <span>{{settings_data.call_us}}</span>
-                                    </p>
+                                    <a href="tel:{{settings_data.call_us}}" style="color: black; text-decoration: none; display: flex; align-items: center;">
+                                        <i class="icofont-ui-touch-phone" style="margin-right: 8px;"></i>
+                                        <div style="display: flex; flex-direction: column;">
+                                            <span style="font-size: 0.8em; color: #666; margin-bottom: 4px;">Call us</span>
+                                            <span>{{settings_data.call_us}}</span>
+                                        </div>
+                                    </a>
                                 </div>
                                 <div class="navbar-info">
-                                    <i class="icofont-ui-email"></i>
-                                    <p>
-                                        <small>email us</small>
-                                        <span>{{settings_data.email_us}}</span>
-                                    </p>
+                                    <a href="mailto:{{settings_data.email_us}}" style="color: black; text-decoration: none; display: flex; align-items: center;">
+                                        <i class="icofont-ui-email" style="margin-right: 8px;"></i>
+                                        <div style="display: flex; flex-direction: column;">
+                                            <span style="font-size: 0.8em; color: #666; margin-bottom: 4px;">Email us</span>
+                                            <span>{{settings_data.email_us}}</span>
+                                        </div>
+                                    </a>
                                 </div>
                             </div>
+                            
+                            
                         </div>
                     </div>
                 </div>
@@ -875,6 +881,7 @@
                             </ul>
                         </div>
                     </div>
+                    
                     <div class="col-sm-6 col-xl-3">
                         <div class="footer-widget contact">
                             <h3 class="footer-title">contact us</h3>
@@ -882,24 +889,26 @@
                                 <li>
                                     <i class="icofont-ui-email"></i>
                                     <p>
-                                        <span> {{settings_data.email}} </span>
-                                        <span> {{settings_data.email_us}} </span>
+                                        <a href="mailto:{{settings_data.email}}">{{settings_data.email}}</a>
+                                        <a href="mailto:{{settings_data.email_us}}">{{settings_data.email_us}}</a>
                                     </p>
                                 </li>
                                 <li>
                                     <i class="icofont-ui-touch-phone"></i>
                                     <p>
-                                        <span>{{settings_data.call_us}}</span>
-                                        <span>{{settings_data.phones}}</span>
+                                        <a href="tel:{{settings_data.call_us}}">{{settings_data.call_us}}</a>
+                                        <a href="tel:{{settings_data.phones}}">{{settings_data.phones}}</a>
                                     </p>
                                 </li>
                                 <li>
                                     <i class="icofont-location-pin"></i>
-                                    <p> {{settings_data.address}} </p>
+                                    <p>{{settings_data.address}}</p>
                                 </li>
                             </ul>
                         </div>
                     </div>
+                    
+
                     <div class="col-sm-6 col-xl-3">
                         <div class="footer-widget">
                             <h3 class="footer-title">quick Links</h3>
