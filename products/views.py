@@ -6,10 +6,12 @@ from django.views.generic import ListView, DetailView
 from .models import Product, Brand, Review, ProductImage
 from django.db.models import Q, F, Value, DecimalField, ExpressionWrapper
 from django.db.models.aggregates import Count, Sum, Avg,Max,Min
+from django.views.decorators.cache import cache_page
+
 
 # Create your views here.
 
-
+@cache_page(60 * 1)
 def mydebug(request):
     # data = Product.objects.all() 
 
@@ -82,9 +84,13 @@ def mydebug(request):
     
     # annotation ---------------
     # data = Product.objects.annotate(is_new=Value(0))
-    data = Product.objects.annotate(
-    price_with_tax=ExpressionWrapper(F('price') * 1.15, output_field=DecimalField())
-)
+    # data = Product.objects.annotate(
+    # price_with_tax=ExpressionWrapper(F('price') * 1.15, output_field=DecimalField())
+    # )
+
+    data = Product.objects.all()
+
+
 
 
 
