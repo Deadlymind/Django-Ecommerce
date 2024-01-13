@@ -16,6 +16,9 @@ class Settings(models.Model):
     ios_app = models.URLField(null=True, blank=True, verbose_name=_('iOS App URL'))
     facebook = models.URLField(null=True, blank=True, verbose_name=_('Facebook URL'))
     youtube = models.URLField(null=True, blank=True, verbose_name=_('YouTube URL'))
+    instagram = models.URLField(null=True, blank=True, verbose_name=_('Instagram URL'))
+    twitter = models.URLField(null=True, blank=True, verbose_name=_('Twitter URL'))
+
 
     def __str__(self):
         return self.name

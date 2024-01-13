@@ -116,8 +116,8 @@
                         <button class="header-src"><i class="fas fa-search"></i></button>
                     </div>
 
-                    <a href="index.html" class="header-logo">
-                        <img src="images/logo.png" alt="logo">
+                    <a href="/" class="header-logo">
+                        <img src=" {{settings_data.logo.url}} " alt="logo">
                     </a>
                     <a href="login.html" class="header-widget" title="My Account">
                         <img src="images/user.png" alt="user">
@@ -184,14 +184,14 @@
                                     <i class="icofont-ui-touch-phone"></i>
                                     <p>
                                         <small>call us</small>
-                                        <span>(+216) 55 952 585</span>
+                                        <span>{{settings_data.call_us}}</span>
                                     </p>
                                 </div>
                                 <div class="navbar-info">
                                     <i class="icofont-ui-email"></i>
                                     <p>
                                         <small>email us</small>
-                                        <span>deadlygamex5@gmail.com</span>
+                                        <span>{{settings_data.email_us}}</span>
                                     </p>
                                 </div>
                             </div>
@@ -863,14 +863,14 @@
                     <div class="col-sm-6 col-xl-3">
                         <div class="footer-widget">
                             <a class="footer-logo" href="#">
-                                <img src="images/logo.png" alt="logo">
+                                <img src=" {{settings_data.logo.url}} " alt="logo">
                             </a>
-                            <p class="footer-desc">Adipisci asperiores ipsum ipsa repellat consequatur repudiandae quisquam assumenda dolor perspiciatis sit ipsum dolor amet.</p>
+                            <p class="footer-desc"> {{settings_data.subtitle}} </p>
                             <ul class="footer-social">
-                                <li><a class="icofont-facebook" href="#"></a></li>
-                                <li><a class="icofont-twitter" href="#"></a></li>
+                                <li><a class="icofont-facebook" href="{{ settings_data.facebook }}" onclick="window.open('{{ settings_data.facebook }}', '_blank'); return false;"></a></li>
+                                <li><a class="icofont-twitter" href="{{ settings_data.twitter }}" onclick="window.open('{{ settings_data.twitter }}', '_blank'); return false;"></a></li>
                                 <li><a class="icofont-linkedin" href="#"></a></li>
-                                <li><a class="icofont-instagram" href="#"></a></li>
+                                <li><a class="icofont-instagram" href="{{ settings_data.instagram }}" onclick="window.open('{{ settings_data.instagram }}', '_blank'); return false;"></a></li>
                                 <li><a class="icofont-pinterest" href="#"></a></li>
                             </ul>
                         </div>
@@ -882,20 +882,20 @@
                                 <li>
                                     <i class="icofont-ui-email"></i>
                                     <p>
-                                        <span>support@greeny.com</span>
-                                        <span>carrer@greeny.com</span>
+                                        <span> {{settings_data.email}} </span>
+                                        <span> {{settings_data.email_us}} </span>
                                     </p>
                                 </li>
                                 <li>
                                     <i class="icofont-ui-touch-phone"></i>
                                     <p>
-                                        <span>+216 55 952 585</span>
-                                        <span>+216 29 097 467</span>
+                                        <span>{{settings_data.call_us}}</span>
+                                        <span>{{settings_data.phones}}</span>
                                     </p>
                                 </li>
                                 <li>
                                     <i class="icofont-location-pin"></i>
-                                    <p>Tunis,Ariana,Mnihla</p>
+                                    <p> {{settings_data.address}} </p>
                                 </li>
                             </ul>
                         </div>
@@ -935,7 +935,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="footer-bottom">
-                            <p class="footer-copytext">&copy;  All Copyrights Reserved by <a target="_blank" href="https://themeforest.net/user/mironcoder">Mironcoder</a></p>
+                            <p class="footer-copytext">&copy;  All Copyrights Reserved by <a target="_blank" href="https://www.facebook.com/Deadlymind.x/">DeadlyMind</a></p>
                             <div class="footer-card">
                                 <a href="#"><img src="images/payment/jpg/01.jpg" alt="payment"></a>
                                 <a href="#"><img src="images/payment/jpg/02.jpg" alt="payment"></a>
