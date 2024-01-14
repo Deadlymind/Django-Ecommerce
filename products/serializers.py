@@ -9,7 +9,19 @@ class ProductImageSerializer(serializers.ModelSerializer):
         fields = ['image']
 
 
-  
+class ProductListSerializer(TaggitSerializer,serializers.ModelSerializer):
+    # StringRelatedField for the brand field
+    brand = serializers.StringRelatedField()
+    tags = TagListSerializerField()
+
+
+    class Meta:
+        model = Product
+        # List of fields to include in the serialized output
+        fields = ['name', 'price', 'flag', 'image','subtitle', 'tags', 'description','sku','brand', 'review_count', 'avg_rate']
+
+
+    
 
 
 
