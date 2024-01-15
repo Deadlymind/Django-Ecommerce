@@ -1,6 +1,8 @@
 from typing import Any
+from django.shortcuts import get_object_or_404
+
 from django.db.models.query import QuerySet
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 
 from .models import Product, Brand, Review, ProductImage
@@ -153,5 +155,45 @@ class BrandDetail(ListView):
 
 
 
+
+# def add_review(request,slug):
+#     product = Product.objects.get(slug=slug)
+
+#     review = request.POST['review'] 
+
+#     rate = request.POST['rating']
+
+#     # add review
+
+#     Review.objects.create(
+#         user = request.user,
+#         product = product,
+#         review = review,
+#         rate = rate
+#     )
+
+#     return redirect(f'/products/{slug}')
+
+
+def add_review(request, slug):
+    # Use get_object_or_404 to handle the case where the product does not exist.
+    product = get_object_or_404(Product, slug=slug)
+
+    if request.method == 'POST':
+        review = request.POST.get('review', '')
+        rate = request.POST.get('rating', '')
+
+        if review and rate:  # Check if review and rate are not empty before proceeding.
+            # Add review
+            Review.objects.create(
+                user=request.user,
+                product=product,
+                review=review,
+                rate=rate
+            )
+
+    # Redirect to the product detail page.
+    # return redirect('product_detail', slug=slug)
+    return redirect(f'/products/{slug}')
 
 
