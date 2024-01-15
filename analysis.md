@@ -56,5 +56,18 @@ User:
     - profile
     - edit profile
 
-
+App Orders:
+    - adress
+    - product
+    - brand
+    - price
+    - quantity
+    - order_item
+    - delivery_time
+    - order_id
+    - total_item
+    - discount
+    - delivery free
+    - status = [Revieved, Processed, Shipped, Delivered]
+    - 
     
