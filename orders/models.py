@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 import datetime
+from django.db import IntegrityError
+
 
 from utils.generate_code import generate_code
 from products.models import Product
@@ -26,23 +28,44 @@ class Order(models.Model):
     total_with_coupon = models.FloatField(null=True,blank=True)
 
     def save(self, *args, **kwargs):
-        # generate a unique code before saving the order
-        if not self.code:
-            self.code = generate_code()
-            while Order.objects.filter(code=self.code).exists():
-                # regenerate code if it already exists
-                self.code = generate_code()
-        super().save(*args, **kwargs)
-
+        # attempt to save the order
+        try:
+            super().save(*args, **kwargs)
+        except IntegrityError:  # catch integrity error for duplicate code
+            self.code = generate_code()  # regenerate code
+            super().save(*args, **kwargs)  # save again with the new code
 
 
 
 class OrderDetail(models.Model):
     order = models.ForeignKey(Order,related_name='order_detail',on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, related_name='orderdetail_product',on_delete=models.SET_NULL)
+    product = models.ForeignKey(Product, related_name='orderdetail_product',on_delete=models.SET_NULL, null=True)
     quantity = models.IntegerField()
     price = models.FloatField()
     total = models.FloatField()
+
+
+CART_STATUS = (
+    ('Inprogress', 'Inprogress'),
+    ('Completed', 'Completed')
+)
+
+
+
+class Cart(models.Model):
+    user = models.ForeignKey(User, related_name='cart_owner', on_delete=models.SET_NULL, null=True, blank=True)
+    status = models.CharField(choices=CART_STATUS, max_length=12)
+    coupon = models.ForeignKey('Coupon',related_name='cart_coupon',on_delete=models.SET_NULL,null=True,blank=True)
+    total = models.FloatField()
+
+
+
+class CartDetail(models.Model):
+    order = models.ForeignKey(Order,related_name='cart_detail',on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, related_name='cartdetail_product',on_delete=models.SET_NULL, null=True)
+    quantity = models.IntegerField(default=1)
+    total = models.FloatField(null=True,blank=True)
+
 
 
 class Coupon(models.Model):
@@ -56,3 +79,6 @@ class Coupon(models.Model):
         week = datetime.timedelta(days=7)
         self.end_date = self.star_date + week #adding 7 days
         super(Coupon, self).save(*args, **kwargs)
+
+
+
