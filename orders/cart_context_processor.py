@@ -15,3 +15,4 @@ def get_cart_data(request):
     else:
         # if the user is not authenticated, return an empty dictionary
         return {}
+ 
