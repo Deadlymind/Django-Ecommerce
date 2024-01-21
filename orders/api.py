@@ -66,7 +66,7 @@ class ApplyCouponAPI(generics.GenericAPIView):
             else:
                 return Response({'message': "Coupon is invalid or expired" })
         
-        return Response({'message':'Coupon not found'})
+        return Response({'message':'Coupon not found'}) 
 
 # class ApplyCouponAPI(generics.GenericAPIView):
     
@@ -74,10 +74,10 @@ class ApplyCouponAPI(generics.GenericAPIView):
 #         # Assuming the 'username' is part of the URL kwargs
 #         user = User.objects.get(username=self.kwargs['username'])
 
-#         # Check if 'coupon_code' is in the request data
-#         if 'coupon_code' in request.data:
-#             coupon_code = request.data['coupon_code']
-#             coupon = get_object_or_404(Coupon, code=coupon_code)
+        # # Check if 'coupon_code' is in the request data
+        # if 'coupon_code' in request.data:
+        #     coupon_code = request.data['coupon_code']
+        #     coupon = get_object_or_404(Coupon, code=coupon_code)
 
 #             delivery_fee = DeliveryFee.objects.last().fee
 #             cart = Cart.objects.get(user=user, status='Inprogress')
@@ -106,6 +106,41 @@ class ApplyCouponAPI(generics.GenericAPIView):
 
 #         else:
 #             return Response({'message': 'Coupon code not provided in the request data'})
+
+
+# class ApplyCouponAPI(generics.GenericAPIView):
+    
+#     def post(self, request, *args, **kwargs):
+#         user = User.objects.get(username=self.kwargs['username'])  # Assuming 'username' is part of the URL
+#         coupon_code = request.data.get('coupon_code', None)  # Use get to avoid KeyError
+
+#         if not coupon_code:
+#             return Response({'message': 'Coupon code not provided in the request data'})
+
+#         coupon = get_object_or_404(Coupon, code=coupon_code)
+#         delivery_fee = DeliveryFee.objects.last().fee
+#         cart = Cart.objects.get(user=user, status='Inprogress')
+
+#         if coupon and coupon.quantity > 0:
+#             today_date = datetime.today().date()
+
+#             if today_date >= coupon.start_date and today_date <= coupon.end_date:
+#                 coupon_value = cart.cart_total / 100 * coupon.discount
+#                 sub_total = cart.cart_total - coupon_value
+
+#                 cart.coupon = coupon
+#                 cart.total_with_coupon = sub_total
+#                 cart.save()
+
+#                 coupon.quantity -= 1
+#                 coupon.save()
+
+#                 return Response({'message': "Coupon was applied successfully" })
+            
+#             else:
+#                 return Response({'message': "Coupon is invalid or expired" })
+        
+#         return Response({'message': 'Coupon not found'})
 
 
 

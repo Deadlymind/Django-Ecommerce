@@ -92,26 +92,33 @@
                                 </ul>
                             </div>
                             <div class="details-add-group">
-
-                                <form action="/orders/add-to-cart" method="post" class="row g-3 align-items-center">
-                                    {% csrf_token %}
-                            
-                                    <div class="col-lg-6">
-                                        <label for="quantity" class="visually-hidden">Quantity</label>
-                                        <div class="input-group">
-                                            <input class="form-control" title="Quantity Number" type="number" id="quantity" name="quantity" value="1" min="1" required>
-                                            <input type="hidden" value="{{ object.id }}" name="product_id">
+                                {% if object.quantity > 0 %}
+                                    <form action="/orders/add-to-cart" method="post" class="row g-3 align-items-center">
+                                        {% csrf_token %}
+                                
+                                        <div class="col-lg-6">
+                                            <label for="quantity" class="visually-hidden">Quantity</label>
+                                            <div class="input-group">
+                                                <input class="form-control" title="Quantity Number" type="number" id="quantity" name="quantity" value="1" min="1" required>
+                                                <input type="hidden" value="{{ object.id }}" name="product_id">
+                                            </div>
                                         </div>
-                                    </div>
-                            
-                                    <div class="col-lg-6">
-                                        <button class="btn btn-primary product-add" title="Add to Cart">
-                                            <i class="fas fa-shopping-basket"></i>
-                                            <span>Add to Cart</span>
-                                        </button>
-                                    </div>
-                            
-                                </form>
+                                
+                                        <div class="col-lg-6">
+                                            <button class="btn btn-primary product-add" title="Add to Cart">
+                                                <i class="fas fa-shopping-basket"></i>
+                                                <span>Add to Cart</span>
+                                            </button>
+                                        </div>
+                                
+                                    </form>
+                                {% else %}
+
+                                    <h2>Out Of Stock</h2>
+
+                                {% endif %}
+
+
                             </div>
                             
                             <div class="details-action-group">
