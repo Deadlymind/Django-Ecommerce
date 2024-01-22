@@ -3,11 +3,13 @@ from rest_framework.response import Response
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 import datetime
+from rest_framework import status
 
 from .serializers import CartSerializer, CartDetailSerializer, OrderDetailSerializer, OrderSerializer
 from .models import Order, OrderDetail, Cart, CartDetail, Coupon
 from products.models import Product
 from settings.models import DeliveryFee
+from accounts.models import Address
 
 
 class OrderListAPI(generics.ListAPIView):
@@ -16,21 +18,15 @@ class OrderListAPI(generics.ListAPIView):
 
     def get_queryset(self):
         queryset = super(OrderListAPI, self).get_queryset()
-
         user = User.objects.get(username=self.kwargs['username'])
-
         queryset = queryset.filter(user=user)
-
         return queryset
 
     # def list(self,request,*args, **kwargs):
     #     queryset = super(OrderListAPI, self).get_queryset()
-
     #     user = User.objects.get(username=self.kwargs['username'])
-
     #     queryset = queryset.filter(user=user)
     #     data = OrderSerializer(queryset, many=True).data
-
     #     return Response({'orders':data})
 
 
@@ -66,81 +62,63 @@ class ApplyCouponAPI(generics.GenericAPIView):
             else:
                 return Response({'message': "Coupon is invalid or expired" })
         
-        return Response({'message':'Coupon not found'}) 
+        return Response({'message':'Coupon not found'},status=status.HTTP_200_OK) 
 
-# class ApplyCouponAPI(generics.GenericAPIView):
-    
-#     def post(self, request, *args, **kwargs):
-#         # Assuming the 'username' is part of the URL kwargs
-#         user = User.objects.get(username=self.kwargs['username'])
 
-        # # Check if 'coupon_code' is in the request data
-        # if 'coupon_code' in request.data:
-        #     coupon_code = request.data['coupon_code']
-        #     coupon = get_object_or_404(Coupon, code=coupon_code)
+class CreateOrderAPI(generics.GenericAPIView):
+    def post(self,request,*args, **kwargs):
+            user = User.objects.get(username=self.kwargs['username'])
+            code = request.data['payment_code']
+            address = request.data['address_id']
 
-#             delivery_fee = DeliveryFee.objects.last().fee
-#             cart = Cart.objects.get(user=user, status='Inprogress')
+            cart = Cart.objects.get(user=user,status='Inprogress')
+            cart_detail = CartDetail.objects.filter(cart=cart)
+            user_address = Address.objects.get(id=address)
 
-#             if coupon and coupon.quantity > 0:
-#                 today_date = datetime.datetime.today().date()
 
-#                 if today_date >= coupon.start_date and today_date <= coupon.end_date:
-#                     coupon_value = cart.cart_total / 100 * coupon.discount
-#                     sub_total = cart.cart_total - coupon_value
+            # cart >> order | cart_detail >> order_detail
+            new_order = Order.objects.create(
+                user = user,
+                status = 'Received',
+                code = code,
+                address = user_address,
+                coupon = cart.coupon,
+                total_with_coupon = cart.total_with_coupon,
+                total = cart.cart_total
 
-#                     cart.coupon = coupon
-#                     cart.total_with_coupon = sub_total
-#                     cart.save()
+            )
 
-#                     coupon.quantity -= 1
-#                     coupon.save()
+            # order detail
+            for item in cart_detail:
+                product = Product.objects.get(id=product.id)
+                OrderDetail.objects.create(
+                    order = new_order,
+                    product = product,
+                    quantity = item.quantity,
+                    price = item.product.price,
+                    total = round(item.quantity * product.price,2)
+                )
+            
+                # decrease product quantity
+                product.quantity -= item.quantity
+                product.save()
 
-#                     return Response({'message': "Coupon was applied successfully" })
+            # close cart
+                cart.status = 'Completed'
+                cart.save()
+
+            #send email
                 
-#                 else:
-#                     return Response({'message': "Coupon is invalid or expired" })
+            # Response
             
-#             else:
-#                 return Response({'message': 'Coupon not found'})
-
-#         else:
-#             return Response({'message': 'Coupon code not provided in the request data'})
-
-
-# class ApplyCouponAPI(generics.GenericAPIView):
-    
-#     def post(self, request, *args, **kwargs):
-#         user = User.objects.get(username=self.kwargs['username'])  # Assuming 'username' is part of the URL
-#         coupon_code = request.data.get('coupon_code', None)  # Use get to avoid KeyError
-
-#         if not coupon_code:
-#             return Response({'message': 'Coupon code not provided in the request data'})
-
-#         coupon = get_object_or_404(Coupon, code=coupon_code)
-#         delivery_fee = DeliveryFee.objects.last().fee
-#         cart = Cart.objects.get(user=user, status='Inprogress')
-
-#         if coupon and coupon.quantity > 0:
-#             today_date = datetime.today().date()
-
-#             if today_date >= coupon.start_date and today_date <= coupon.end_date:
-#                 coupon_value = cart.cart_total / 100 * coupon.discount
-#                 sub_total = cart.cart_total - coupon_value
-
-#                 cart.coupon = coupon
-#                 cart.total_with_coupon = sub_total
-#                 cart.save()
-
-#                 coupon.quantity -= 1
-#                 coupon.save()
-
-#                 return Response({'message': "Coupon was applied successfully" })
+            return Response({'message': 'order was created successfuly'},status=status.HTTP_201_CREATED)
             
-#             else:
-#                 return Response({'message': "Coupon is invalid or expired" })
-        
-#         return Response({'message': 'Coupon not found'})
 
 
+
+
+
+
+class CartCreateUpdateDelete(generics.GenericAPIView):
+    pass
 
