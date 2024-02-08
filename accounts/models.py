@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 PHONE_TYPE = (
     ('Home','Home'),
     ('Office','Office'),
+    ('Business','Business'),
     
 )
 
