@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'accounts',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,7 +46,7 @@ INSTALLED_APPS = [
     'django_filters',
     'drf_yasg',
     "debug_toolbar",
-
+    "django_bootstrap5",
 
 
 
@@ -52,8 +54,7 @@ INSTALLED_APPS = [
     'products',
     'settings',
     'orders',
-    'accounts',
-    
+
 
 ]
 
@@ -180,4 +181,14 @@ AUTHENTICATION_BACKENDS= [
     'accounts.backend.EmailOrUsernameLogin',
 ]
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+LOGIN_REDIRECT_URL = '/'
+
+
+# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_PASSWORD = "vuds gkyg tsei mstr"
+EMAIL_HOST_USER = "oussamaayari2014@gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

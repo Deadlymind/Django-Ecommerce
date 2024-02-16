@@ -142,13 +142,15 @@
   height: 45px;
   font-size: 14px;
   font-weight: 500;
-  line-height: 45px;
   border-radius: 8px;
   letter-spacing: 0.3px;
   text-align: center;
   text-transform: uppercase;
   color: var(--white);
   background: var(--primary);
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
 .form-button p {
