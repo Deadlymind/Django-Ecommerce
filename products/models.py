@@ -32,33 +32,33 @@ class Product(models.Model):
     slug = models.SlugField(blank=True,null=True, unique=True)
 
     def save(self, *arg, **kwargs):
-        self.slug = slugify(self.name) 
+        self.slug = slugify(self.name)
 
         super(Product, self).save(*arg, **kwargs)
 
     def __str__(self):
         return self.name
-    
+
     @property # column in db
     def review_count(self):
         reviews = self.review_product.all().count()
         return reviews
-    
+
     @property
     def avg_rate(self):
-        total = 0 
+        total = 0
         reviews = self.review_product.all()
 
 
         if len(reviews) > 0:
             for item in reviews:
                 total += item.rate
-            
+
             avg = total / len(reviews)
         else:
             avg = 0
         return avg
-    
+
     class Meta:
         ordering = ['id']
         verbose_name = 'Product'
@@ -71,7 +71,7 @@ class Product(models.Model):
 class ProductImage(models.Model):
     product = models.ForeignKey(Product,verbose_name=_('product'),related_name='product_image',on_delete=models.CASCADE)
     image = models.ImageField(_('image'),upload_to='productimages')
-    
+
 
 
 class Brand(models.Model):
@@ -82,7 +82,7 @@ class Brand(models.Model):
     slug = models.SlugField(blank=True,null=True)
 
     def save(self, *arg, **kwargs):
-        self.slug = slugify(self.name) 
+        self.slug = slugify(self.name)
 
         super(Brand, self).save(*arg, **kwargs)
 

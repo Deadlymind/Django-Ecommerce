@@ -86,8 +86,9 @@ class Coupon(models.Model):
     discount = models.FloatField()
 
     def save(self, *args, **kwargs):
-        week = datetime.timedelta(days=7)
-        self.end_date = self.start_date + week #adding 7 days
+        if not self.end_date:
+            week = datetime.timedelta(days=7)
+            self.end_date = self.start_date + week #adding 7 days
         super(Coupon, self).save(*args, **kwargs)
 
     def __str__(self):

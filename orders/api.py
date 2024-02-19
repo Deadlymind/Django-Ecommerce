@@ -81,7 +81,7 @@ class CreateOrderAPI(generics.GenericAPIView):
                 user = user,
                 status = 'Received',
                 code = code,
-                address = user_address,
+                delivery_address = user_address,
                 coupon = cart.coupon,
                 total_with_coupon = cart.total_with_coupon,
                 total = cart.cart_total
@@ -90,7 +90,7 @@ class CreateOrderAPI(generics.GenericAPIView):
 
             # order detail
             for item in cart_detail:
-                product = Product.objects.get(id=product.id)
+                product = Product.objects.get(id=item.product.id)
                 OrderDetail.objects.create(
                     order = new_order,
                     product = product,
