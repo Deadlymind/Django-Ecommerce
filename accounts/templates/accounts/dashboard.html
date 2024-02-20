@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .sidebar {
+            background-color: #343a40;
+            color: #fff;
+            height: 100vh;
+        }
+        .sidebar a {
+            color: #fff;
+        }
+        .sidebar-heading {
+            padding: 1.5rem 0;
+        }
+        .container-fluid {
+            padding-left: 0;
+        }
+        h1 {
+            color: #007BFF;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar">
+                <div class="sidebar-sticky">
+                    <h2 class="sidebar-heading text-center">Admin Panel</h2>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">
+                                Dashboard
+                            </a>
+                        </li>
+                        <!-- Add more navigation items based on your needs -->
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Content -->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+                <h1 class="text-center mb-5">Admin Dashboard</h1>
+
+                <!-- User Info -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Admin Information</h5>
+                                <p class="card-text">Welcome, Admin!</p>
+                                <!-- Add more user information here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="row mt-4">
+                    <div class="col-lg-6">
+                        <h2 class="text-center mb-4">Product Categories</h2>
+                        <canvas id="productChart" width="400" height="300"></canvas>
+                    </div>
+                    <div class="col-lg-6">
+                        <h2 class="text-center mb-4">Database Entities</h2>
+                        <canvas id="entityChart" width="400" height="300"></canvas>
+                    </div>
+                </div>
+
+                <!-- Additional Sections -->
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <h2 class="text-center mb-4">Recent Orders</h2>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for order in recent_orders %}
+                                        <tr>
+                                            <td>{{ order.id }}</td>
+                                            <td>{{ order.product.name }}</td>
+                                            <td>{{ order.quantity }}</td>
+                                            <td>{{ order.order.order_time|date:"Y-m-d" }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h2 class="text-center mb-4">Notifications</h2>
+                        <div class="list-group">
+                            {% for notification in notifications %}
+                                <a href="#" class="list-group-item list-group-item-action">
+                                    {{ notification }}
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sales Trends Chart -->
+                <div class="row mt-4">
+                    <div class="col-lg-6">
+                        <h2 class="text-center mb-4">Sales Trends</h2>
+                        <canvas id="salesTrendChart" width="400" height="300"></canvas>
+                    </div>
+                    <div class="col-lg-6">
+                        <h2 class="text-center mb-4">User Activity Log</h2>
+                        <ul class="list-group">
+                            {% for log_entry in user_activity_log %}
+                                <li class="list-group-item">
+                                    <span class="fw-bold">User:</span> {{ log_entry.user.username }}
+                                    <span class="float-end">Logged In - {{ log_entry.timestamp|date:"Y-m-d H:i A" }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // Product Categories Chart
+        const productCtx = document.getElementById('productChart').getContext('2d');
+        new Chart(productCtx, {
+            type: 'bar',
+            data: {
+                labels: ['New', 'Sale', 'Feature'],
+                datasets: [{
+                    label: '# of Products',
+                    data: [{{new_products}}, {{sale_products}}, {{feature_products}}],
+                    backgroundColor: ['#007BFF', '#28A745', '#FFC107'],
+                    borderColor: ['#007BFF', '#28A745', '#FFC107'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Database Entities Chart
+        const entityCtx = document.getElementById('entityChart').getContext('2d');
+        new Chart(entityCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Users', 'Products', 'Brands', 'Orders', 'Reviews'],
+                datasets: [{
+                    label: '# of Entities',
+                    data: [{{users}}, {{products}}, {{brands}}, {{orders}}, {{reviews}}],
+                    backgroundColor: ['#007BFF', '#19E6D9', '#F90808', '#F98008', '#17A2B8'],
+                    borderColor: ['#007BFF', '#19E6D9', '#F90808', '#F98008', '#17A2B8'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+
+        // Sales Trends Chart
+        const salesTrendCtx = document.getElementById('salesTrendChart').getContext('2d');
+        new Chart(salesTrendCtx, {
+            type: 'line',
+            data: {
+                labels: {{ sales_labels|safe }},
+                datasets: [{
+                    label: 'Monthly Sales',
+                    data: {{ sales_amounts|safe }},
+                    borderColor: '#007BFF',
+                    backgroundColor: 'rgba(0, 123, 255, 0.2)',
+                    borderWidth: 2,
+                    pointRadius: 5,
+                    pointBackgroundColor: '#007BFF',
+                    pointBorderColor: '#fff',
+                    pointHoverRadius: 8,
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -6,6 +6,13 @@ from django.shortcuts import redirect
 from .forms import SignupForm, UserActivateForm
 from .models import Porfile
 
+from products.models import Product, Brand, Review
+from orders.models import Order, OrderDetail
+from django.shortcuts import render
+from django.db.models import Sum
+from django.db.models.functions import TruncMonth
+from django.utils import timezone
+
 # Create your views here.
 
 def signup(request):
@@ -63,3 +70,83 @@ def user_activate(request, username):
     else:
         form = UserActivateForm()
     return render(request, 'accounts/activate.html', {'form': form})
+
+
+
+
+
+
+def dashboard(request):
+    users = User.objects.all().count()
+    products = Product.objects.all().count()
+    orders = Order.objects.all().count()
+    brands = Brand.objects.all().count()
+    reviews = Review.objects.all().count()
+
+    new_products = Product.objects.filter(flag='New').count()
+    sale_products = Product.objects.filter(flag='sale').count()
+    feature_products = Product.objects.filter(flag='Feature').count()
+
+    # Retrieve sales data for the last six months
+    sales_data = OrderDetail.objects.filter(order__status='Delivered').annotate(month=TruncMonth('order__order_time')).values('month').annotate(total_amount=Sum('total')).order_by('-month')[:6]
+
+    # Extract labels and data for the sales trend chart
+    sales_labels = [entry['month'].strftime('%b %Y') for entry in sales_data]
+    sales_amounts = [entry['total_amount'] for entry in sales_data]
+
+    return render(request, 'accounts/dashboard.html', {
+        'users': users,
+        'products': products,
+        'orders': orders,
+        'brands': brands,
+        'reviews': reviews,
+        'new_products': new_products,
+        'sale_products': sale_products,
+        'feature_products': feature_products,
+        'sales_labels': sales_labels,
+        'sales_amounts': sales_amounts,
+    })
+
+# def dashboard(request):
+#     # Product-related statistics
+#     total_products = Product.objects.all().count()
+#     new_products = Product.objects.filter(flag='New').count()
+#     sale_products = Product.objects.filter(flag='sale').count()
+#     feature_products = Product.objects.filter(flag='Feature').count()
+
+#     # Order-related statistics
+#     total_orders = Order.objects.all().count()
+#     total_order_amount = Order.objects.aggregate(Sum('total'))['total__sum']
+
+#     # User-related statistics
+#     total_users = User.objects.all().count()
+
+#     # Review-related statistics
+#     total_reviews = Review.objects.all().count()
+
+#     # Sample data for charts (replace with your actual data)
+#     sales_labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
+#     sales_amounts = [100, 150, 200, 180, 250, 300]
+
+#     # Sample data for recent orders and notifications (replace with your actual data)
+#     recent_orders = OrderDetail.objects.filter(order__status='Delivered')[:5]
+#     notifications = ['New User Registered', 'Product Out of Stock']
+
+#     # Sample data for user activity log (replace with your actual data)
+#     user_activity_log = [{'user': User.objects.first(), 'timestamp': timezone.now()}]
+
+#     return render(request, 'accounts/dashboard.html', {
+#         'total_products': total_products,
+#         'new_products': new_products,
+#         'sale_products': sale_products,
+#         'feature_products': feature_products,
+#         'total_orders': total_orders,
+#         'total_order_amount': total_order_amount,
+#         'total_users': total_users,
+#         'total_reviews': total_reviews,
+#         'sales_labels': sales_labels,
+#         'sales_amounts': sales_amounts,
+#         'recent_orders': recent_orders,
+#         'notifications': notifications,
+#         'user_activity_log': user_activity_log,
+#     })
