@@ -33,11 +33,11 @@ class OrderListAPI(generics.ListAPIView):
 class OrderDetailAPI(generics.RetrieveAPIView):
     serializer_class = OrderSerializer
     queryset = Order.objects.all()
-    
+
 
 
 class ApplyCouponAPI(generics.GenericAPIView):
-    
+
     def post(self,request,*args, **kwargs):
         user = User.objects.get(username=self.kwargs['username'])            #url
         coupon = get_object_or_404(Coupon, code=request.data['coupon_code']) #request body
@@ -58,10 +58,10 @@ class ApplyCouponAPI(generics.GenericAPIView):
                 coupon.save()
 
                 return Response({'message': "Coupon was applied successfully" })
-            
+
             else:
                 return Response({'message': "Coupon is invalid or expired" })
-        
+
         return Response({'message':'Coupon not found'},status=status.HTTP_200_OK) 
 
 
@@ -98,7 +98,7 @@ class CreateOrderAPI(generics.GenericAPIView):
                     price = item.product.price,
                     total = round(item.quantity * product.price,2)
                 )
-            
+
                 # decrease product quantity
                 product.quantity -= item.quantity
                 product.save()
@@ -108,11 +108,11 @@ class CreateOrderAPI(generics.GenericAPIView):
                 cart.save()
 
             #send email
-                
+
             # Response
-            
+
             return Response({'message': 'order was created successfuly'},status=status.HTTP_201_CREATED)
-            
+
 
 
 

@@ -6612,12 +6612,13 @@ tbody tr td:last-child {
   display: -ms-grid;
   display: grid;
   grid-gap: 10px;
-  -ms-grid-columns: (1fr)[2];
-      grid-template-columns: repeat(2, 1fr);
-  -ms-grid-rows: auto;
-      grid-template-rows: auto;
-  margin: 15px 0px;
+  -ms-grid-columns: 1fr 1fr; /* Define two columns with equal fractional width for IE */
+  grid-template-columns: repeat(2, 1fr); /* Define two columns with equal fractional width for other browsers */
+  -ms-grid-rows: auto; /* Auto-size rows for IE */
+  grid-template-rows: auto; /* Auto-size rows for other browsers */
+  margin: 15px 0;
 }
+
 
 .shop-widget-group input {
   width: 100%;
