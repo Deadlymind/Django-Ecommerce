@@ -1,0 +1,257 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-02-22 20:48+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#: .\products\apps.py:8
+#, fuzzy
+#| msgid "product"
+msgid "Products"
+msgstr "المنتج"
+
+#: .\products\models.py:19 .\products\models.py:78
+msgid "name"
+msgstr "الاسم"
+
+#: .\products\models.py:20
+msgid "flag"
+msgstr "العلامة"
+
+#: .\products\models.py:21
+msgid "price"
+msgstr "السعر"
+
+#: .\products\models.py:22 .\products\models.py:73 .\products\models.py:79
+msgid "image"
+msgstr "الصورة"
+
+#: .\products\models.py:24
+msgid "sku"
+msgstr "سكو"
+
+#: .\products\models.py:25
+msgid "subtitle"
+msgstr "العنوان الفرعي"
+
+#: .\products\models.py:26
+msgid "description"
+msgstr "الوصف"
+
+#: .\products\models.py:27 .\templates\base.html:208
+msgid "brand"
+msgstr "العلامة التجارية"
+
+#: .\products\models.py:30
+msgid "quantity"
+msgstr "الكمية"
+
+#: .\products\models.py:72 .\products\models.py:97
+msgid "product"
+msgstr "المنتج"
+
+#: .\products\models.py:96
+msgid "user"
+msgstr "المستخدم"
+
+#: .\products\models.py:98
+msgid "review"
+msgstr "مراجعة"
+
+#: .\products\models.py:99
+msgid "rate"
+msgstr "معدل"
+
+#: .\settings\models.py:11
+msgid "Email Us"
+msgstr "راسلنا عبر البريد الإلكتروني"
+
+#: .\settings\models.py:15
+msgid "Android App URL"
+msgstr "عنوان URL لتطبيق Android"
+
+#: .\settings\models.py:16
+msgid "iOS App URL"
+msgstr "عنوان URL لتطبيق iOS"
+
+#: .\settings\models.py:17
+msgid "Facebook URL"
+msgstr "رابط الفيسبوك"
+
+#: .\settings\models.py:18
+msgid "YouTube URL"
+msgstr "رابط يوتيوب"
+
+#: .\settings\models.py:19
+msgid "Instagram URL"
+msgstr "رابط الانستغرام"
+
+#: .\settings\models.py:20
+msgid "Twitter URL"
+msgstr "تويتر URL"
+
+#: .\templates\base.html:99
+msgid "Welcome to Ecomart in Your Dream Online Store! "
+msgstr "مرحبًا بك في إيكومارت في متجرك الإلكتروني الحلم!"
+
+#: .\templates\base.html:127
+msgid "offers"
+msgstr "العروض"
+
+#: .\templates\base.html:128
+msgid "need help"
+msgstr "تحتاج إلى مساعدة"
+
+#: .\templates\base.html:129 .\templates\base.html:844
+msgid "contact us"
+msgstr "اتصل بنا"
+
+#: .\templates\base.html:158
+msgid "Login"
+msgstr "تسجيل الدخول"
+
+#: .\templates\base.html:161
+msgid "SignUp"
+msgstr "التسجيل"
+
+#: .\templates\base.html:166
+msgid "Search anything..."
+msgstr "ابحث عن أي شيء..."
+
+#: .\templates\base.html:179
+#, fuzzy
+#| msgid "price"
+msgid "total price"
+msgstr "السعر"
+
+#: .\templates\base.html:200
+msgid "home"
+msgstr "الرئيسية"
+
+#: .\templates\base.html:204
+msgid "shop"
+msgstr "المتجر"
+
+#: .\templates\base.html:212
+msgid "orders"
+msgstr "الطلبيات"
+
+#: .\templates\base.html:216
+msgid "dashboard"
+msgstr "لوحة القيادة"
+
+#: .\templates\base.html:225
+msgid "Call us"
+msgstr "اتصل بنا"
+
+#: .\templates\base.html:234
+#, fuzzy
+#| msgid "Email Us"
+msgid "Email us"
+msgstr "راسلنا عبر البريد الإلكتروني"
+
+#: .\templates\base.html:412
+msgid "total item"
+msgstr "العدد الإجمالي"
+
+#: .\templates\base.html:427
+msgid "Unit Price"
+msgstr "سعر الوحدة"
+
+#: .\templates\base.html:446
+msgid "Proceed to Checkout"
+msgstr "المتابعة إلى الدفع"
+
+#: .\templates\base.html:468
+msgid "join here"
+msgstr "انضم هنا"
+
+#: .\templates\base.html:744
+#, python-format
+msgid "Get 20%% Discount for Subscriber"
+msgstr "احصل على خصم 20٪ للمشتركين"
+
+#: .\templates\base.html:751
+msgid "Subscribe"
+msgstr "الاشتراك"
+
+#: .\templates\base.html:774
+msgid "free home delivery"
+msgstr "توصيل مجاني إلى المنزل"
+
+#: .\templates\base.html:785
+msgid "instant return policy"
+msgstr "سياسة الإرجاع الفوري"
+
+#: .\templates\base.html:796
+msgid "quick support system"
+msgstr "نظام دعم سريع"
+
+#: .\templates\base.html:807
+msgid "secure payment way"
+msgstr "طريقة دفع آمنة"
+
+#: .\templates\base.html:874
+msgid "My Account"
+msgstr "حسابي"
+
+#: .\templates\base.html:875
+msgid "Order History"
+msgstr "تاريخ الطلبات"
+
+#: .\templates\base.html:876
+msgid "Order Tracking"
+msgstr "تتبع الطلب"
+
+#: .\templates\base.html:877
+msgid "Best Seller"
+msgstr "الأفضل مبيعًا"
+
+#: .\templates\base.html:878
+msgid "New Arrivals"
+msgstr "وصل حديثًا"
+
+#: .\templates\base.html:881
+msgid "Location"
+msgstr "الموقع"
+
+#: .\templates\base.html:882
+msgid "Affiliates"
+msgstr "الشركاء"
+
+#: .\templates\base.html:883
+msgid "Contact"
+msgstr "اتصال"
+
+#: .\templates\base.html:884
+msgid "Carrer"
+msgstr "وظيفة"
+
+#: .\templates\base.html:885
+msgid "Faq"
+msgstr "الأسئلة الشائعة"
+
+#: .\templates\base.html:904
+msgid "All Copyrights Reserved by"
+msgstr "جميع حقوق النشر محفوظة لدى"
+
+#, fuzzy
+#~| msgid "brands"
+#~ msgid "brands"
+#~ msgstr "العلامة التجارية"
+

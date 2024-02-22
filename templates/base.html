@@ -1,7 +1,11 @@
 {% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" {% if LANGUAGE_CODE == 'ar' %} dir="rtl" {% endif %}>
     <head>
         <!--=====================================
                     META TAG PART START
@@ -27,35 +31,56 @@
         <title>Index Home - Potato</title>
 
         <!--=====================================
-                    CSS LINK PART START
+                    CSS  LINK PART START
         =======================================-->
         <!-- FAVICON -->
-        <link rel="icon" href="images/favicon.png">
+        {% if LANGUAGE_CODE == 'en' or LANGUAGE_CODE == 'fr' %}
 
-        <!-- FONTS -->
-        <link rel="stylesheet" href="{% static 'en/fonts/flaticon/flaticon.css' %}">
-        <link rel="stylesheet" href="{% static 'en/fonts/icofont/icofont.min.css' %}">
-        <link rel="stylesheet" href="{% static 'en/fonts/fontawesome/fontawesome.min.css' %}">
+            <link rel="icon" href="images/favicon.png">
 
-        <!-- VENDOR -->
-        <link rel="stylesheet" href="{% static 'en/vendor/venobox/venobox.min.css' %}">
-        <link rel="stylesheet" href="{% static 'en/vendor/slickslider/slick.min.css' %}">
-        <link rel="stylesheet" href="{% static 'en/vendor/niceselect/nice-select.min.css' %}">
-        <link rel="stylesheet" href="{% static 'en/vendor/bootstrap/bootstrap.min.css' %}">
+            <!-- FONTS -->
+            <link rel="stylesheet" href="{% static 'en/fonts/flaticon/flaticon.css' %}">
+            <link rel="stylesheet" href="{% static 'en/fonts/icofont/icofont.min.css' %}">
+            <link rel="stylesheet" href="{% static 'en/fonts/fontawesome/fontawesome.min.css' %}">
 
-        <!-- CUSTOM -->
-        <link rel="stylesheet" href="{% static 'en/css/main.css' %}">
+            <!-- VENDOR -->
+            <link rel="stylesheet" href="{% static 'en/vendor/venobox/venobox.min.css' %}">
+            <link rel="stylesheet" href="{% static 'en/vendor/slickslider/slick.min.css' %}">
+            <link rel="stylesheet" href="{% static 'en/vendor/niceselect/nice-select.min.css' %}">
+            <link rel="stylesheet" href="{% static 'en/vendor/bootstrap/bootstrap.min.css' %}">
+
+            <!-- CUSTOM -->
+            <link rel="stylesheet" href="{% static 'en/css/main.css' %}">
+        {% else %}
+            <link rel="icon" href="images/favicon.png">
+
+            <!-- FONTS -->
+            <link rel="stylesheet" href="{% static 'ar/fonts/flaticon/flaticon.css' %}">
+            <link rel="stylesheet" href="{% static 'ar/fonts/icofont/icofont.min.css' %}">
+            <link rel="stylesheet" href="{% static 'ar/fonts/fontawesome/fontawesome.min.css' %}">
+
+            <!-- VENDOR -->
+            <link rel="stylesheet" href="{% static 'ar/vendor/venobox/venobox.min.css' %}">
+            <link rel="stylesheet" href="{% static 'ar/vendor/slickslider/slick.min.css' %}">
+            <link rel="stylesheet" href="{% static 'ar/vendor/niceselect/nice-select.min.css' %}">
+            <link rel="stylesheet" href="{% static 'ar/vendor/bootstrap/bootstrap.min.css' %}">
+
+            <!-- CUSTOM -->
+            <link rel="stylesheet" href="{% static 'ar/css/main.css' %}">
+
+        {% endif %}
 
 
 
         {% block css %}
-        <link rel="stylesheet" href="{% static 'en/css/index.css' %}">
+            {% if LANGUAGE_CODE == 'en' %}
+                <link rel="stylesheet" href="{% static 'en/css/index.css' %}">
+            {% else %}
+                <link rel="stylesheet" href="{% static 'ar/css/index.css' %}">
+            {% endif %}
         {% endblock css %}
 
 
-
-        
-        
         <!--=====================================
                     CSS LINK PART END
         =======================================-->
@@ -63,7 +88,6 @@
     <body>
         <div class="backdrop"></div>
         <a class="backtop fas fa-arrow-up" href="#"></a>
-        
         <!--=====================================
                     HEADER TOP PART START
         =======================================-->
@@ -72,37 +96,46 @@
                 <div class="row">
                     <div class="col-md-12 col-lg-5">
                         <div class="header-top-welcome">
-                            <p>Welcome to Ecomart in Your Dream Online Store!</p>
+                            <p>{% translate "Welcome to Ecomart in Your Dream Online Store! " %}</p>
                         </div>
                     </div>
                     <div class="col-md-5 col-lg-3">
                         <div class="header-top-select">
                             <div class="header-select">
                                 <i class="icofont-world"></i>
-                                <select class="select">
-                                    <option value="english" selected>english</option>
-                                    <option value="bangali">bangali</option>
-                                    <option value="arabic">arabic</option>
-                                </select>
+                                <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+                                    <input name="next" type="hidden" value="{{ redirect_to }}">
+                                    <select name="language" class="select">
+                                        {% get_current_language as LANGUAGE_CODE %}
+                                        {% get_available_languages as LANGUAGES %}
+                                        {% get_language_info_list for LANGUAGES as languages %}
+                                        {% for language in languages %}
+                                            <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                                                {{ language.name_local }} ({{ language.code }})
+                                            </option>
+                                        {% endfor %}
+                                    </select> &nbsp;
+                                    <input type="submit" value="Go">
+                                </form>
+
                             </div>
 
                         </div>
                     </div>
                     <div class="col-md-7 col-lg-4">
                         <ul class="header-top-list">
-                            <li><a href="offer.html">offers</a></li>
-                            <li><a href="faq.html">need help</a></li>
-                            <li><a href="contact.html">contact us</a></li>
+                            <li><a href="offer.html">{% translate "offers" %}</a></li>
+                            <li><a href="faq.html">{% translate "need help" %}</a></li>
+                            <li><a href="contact.html">{% translate "contact us" %}</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
         <!--=====================================
-                    HEADER TOP PART END 
+                    HEADER TOP PART END
         =======================================-->
 
-            
         <!--=====================================
                     HEADER PART START
         =======================================-->
@@ -122,15 +155,15 @@
                         {% if user.is_authenticated %}
                             <img src="images/user.png" alt="user">
                         {% else %}
-                            <a href="#" >Login</a>
+                            <a href="#" >{% translate "Login" %}</a>
                             <span class="separator">||</span>
 
-                            <a href="#">SignUp</a>
+                            <a href="#">{% translate "SignUp" %}</a>
                         {% endif %}
                     </a>
 
                     <form class="header-form">
-                        <input type="text" placeholder="Search anything...">
+                        <input type="text" placeholder="{% translate "Search anything..." %}">
                         <button><i class="fas fa-search"></i></button>
                     </form>
 
@@ -142,8 +175,8 @@
                         </a>
                         <button class="header-widget header-cart" title="Cartlist">
                             <i class="fas fa-shopping-basket"></i>
-                            <sup>9+</sup>
-                            <span>total price<small>${{cart_data.cart_total}}</small></span>
+                            <sup>{{cart_detail_data|length}}</sup>
+                            <span>{% translate "total price" %}<small>${{cart_data.cart_total}}</small></span>
                         </button>
                     </div>
                 </div>
@@ -164,23 +197,23 @@
                         <div class="navbar-content">
                             <ul class="navbar-list">
                                 <li class="navbar-item">
-                                    <a class="navbar-link" href="/">home</a>
+                                    <a class="navbar-link" href="/">{% translate "home" %}</a>
 
                                 </li>
                                 <li class="navbar-item">
-                                    <a class="navbar-link" href="/products">shop</a>
+                                    <a class="navbar-link" href="/products">{% translate "shop" %}</a>
 
                                 </li>
                                 <li class="navbar-item">
-                                    <a class="navbar-link" href="/products/brands">brands</a>
+                                    <a class="navbar-link" href="/products/brands">{% translate "brand" %}</a>
 
                                 </li>
                                 <li class="navbar-item">
-                                    <a class="navbar-link" href="/orders">orders</a>
+                                    <a class="navbar-link" href="/orders">{% translate "orders" %}</a>
 
                                 </li>
-                                <li class="navbar-item dropdown">
-                                    <a class="navbar-link" href="/accounts/dashboard">dashboard</a>
+                                <li class="navbar-item">
+                                    <a class="navbar-link" href="/accounts/dashboard">{% translate "dashboard" %}</a>
 
                                 </li>
                             </ul>
@@ -189,7 +222,7 @@
                                     <a href="tel:{{settings_data.call_us}}" style="color: black; text-decoration: none; display: flex; align-items: center;">
                                         <i class="icofont-ui-touch-phone" style="margin-right: 8px;"></i>
                                         <div style="display: flex; flex-direction: column;">
-                                            <span style="font-size: 0.8em; color: #666; margin-bottom: 4px;">Call us</span>
+                                            <span style="font-size: 0.8em; color: #666; margin-bottom: 4px;">{% translate "Call us" %}</span>
                                             <span>{{settings_data.call_us}}</span>
                                         </div>
                                     </a>
@@ -198,14 +231,12 @@
                                     <a href="mailto:{{settings_data.email_us}}" style="color: black; text-decoration: none; display: flex; align-items: center;">
                                         <i class="icofont-ui-email" style="margin-right: 8px;"></i>
                                         <div style="display: flex; flex-direction: column;">
-                                            <span style="font-size: 0.8em; color: #666; margin-bottom: 4px;">Email us</span>
+                                            <span style="font-size: 0.8em; color: #666; margin-bottom: 4px;">{% translate "Email us" %}</span>
                                             <span>{{settings_data.email_us}}</span>
                                         </div>
                                     </a>
                                 </div>
                             </div>
-                            
-                            
                         </div>
                     </div>
                 </div>
@@ -363,7 +394,7 @@
                 </li>
             </ul>
             <div class="category-footer">
-                <p>All Rights Reserved by <a href="#">Mironcoder</a></p>
+                <p>All Rights Reserved by <a href="#">Deadlymind</a></p>
             </div>
         </aside>
         <!--=====================================
@@ -378,7 +409,7 @@
             <div class="cart-header">
                 <div class="cart-total">
                     <i class="fas fa-shopping-basket"></i>
-                    <span>total item ({{cart_detail_data|length}})</span>
+                    <span>{% translate "total item" %} ({{cart_detail_data|length}})</span>
                 </div>
                 <button class="cart-close"><i class="icofont-close"></i></button>
             </div>
@@ -393,7 +424,7 @@
                         <div class="cart-info-group">
                             <div class="cart-info">
                                 <h6><a href="product-single.html">{{item.product}}</a></h6>
-                                <p>Unit Price - ${{item.product.price}}</p>
+                                <p>{% translate "Unit Price" %} - ${{item.product.price}}</p>
                             </div>
                             <div class="cart-action-group">
                                 <div class="product-action">
@@ -412,7 +443,7 @@
             <div class="cart-footer">
 
                 <a class="cart-checkout-btn" href="/orders/checkout">
-                    <span class="checkout-label">Proceed to Checkout</span>
+                    <span class="checkout-label">{% translate "Proceed to Checkout" %}</span>
                     <span class="checkout-price">${{cart_data.cart_total}}</span>
                 </a>
             </div>
@@ -434,7 +465,7 @@
                 <div class="nav-btn">
                     <a href="login.html" class="btn btn-inline">
                         <i class="fa fa-unlock-alt"></i>
-                        <span>join here</span>
+                        <span>{% translate "join here" %}</span>
                     </a>
                 </div>
                 <!-- This commentable code show when user login or register -->
@@ -710,14 +741,14 @@
                 <div class="row align-items-center">
                     <div class="col-md-5 col-lg-6 col-xl-7">
                         <div class="news-text">
-                            <h2>Get 20% Discount for Subscriber</h2>
+                            <h2>{% translate "Get 20% Discount for Subscriber" %}</h2>
                             <p>Lorem ipsum dolor consectetur adipisicing accusantium</p>
                         </div>
                     </div>
                     <div class="col-md-7 col-lg-6 col-xl-5">
                         <form class="news-form">
                             <input type="text" placeholder="Enter Your Email Address">
-                            <button><span><i class="icofont-ui-email"></i>Subscribe</span></button>
+                            <button><span><i class="icofont-ui-email"></i>{% translate "Subscribe" %}</span></button>
                         </form>
                     </div>
                 </div>
@@ -740,7 +771,7 @@
                                 <i class="fas fa-truck"></i>
                             </div>
                             <div class="intro-content">
-                                <h5>free home delivery</h5>
+                                <h5>{% translate "free home delivery" %}</h5>
                                 <p>Lorem ipsum dolor sit amet adipisicing elit nobis.</p>
                             </div>
                         </div>
@@ -751,7 +782,7 @@
                                 <i class="fas fa-sync-alt"></i>
                             </div>
                             <div class="intro-content">
-                                <h5>instant return policy</h5>
+                                <h5>{% translate "instant return policy" %}</h5>
                                 <p>Lorem ipsum dolor sit amet adipisicing elit nobis.</p>
                             </div>
                         </div>
@@ -762,7 +793,7 @@
                                 <i class="fas fa-headset"></i>
                             </div>
                             <div class="intro-content">
-                                <h5>quick support system</h5>
+                                <h5>{% translate "quick support system" %}</h5>
                                 <p>Lorem ipsum dolor sit amet adipisicing elit nobis.</p>
                             </div>
                         </div>
@@ -773,7 +804,7 @@
                                 <i class="fas fa-lock"></i>
                             </div>
                             <div class="intro-content">
-                                <h5>secure payment way</h5>
+                                <h5>{% translate "secure payment way" %}</h5>
                                 <p>Lorem ipsum dolor sit amet adipisicing elit nobis.</p>
                             </div>
                         </div>
@@ -810,7 +841,7 @@
                     
                     <div class="col-sm-6 col-xl-3">
                         <div class="footer-widget contact">
-                            <h3 class="footer-title">contact us</h3>
+                            <h3 class="footer-title">{% translate "contact us" %}</h3>
                             <ul class="footer-contact">
                                 <li>
                                     <i class="icofont-ui-email"></i>
@@ -840,18 +871,18 @@
                             <h3 class="footer-title">quick Links</h3>
                             <div class="footer-links">
                                 <ul>
-                                    <li><a href="#">My Account</a></li>
-                                    <li><a href="#">Order History</a></li>
-                                    <li><a href="#">Order Tracking</a></li>
-                                    <li><a href="#">Best Seller</a></li>
-                                    <li><a href="#">New Arrivals</a></li>
+                                    <li><a href="#">{% translate "My Account" %}</a></li>
+                                    <li><a href="#">{% translate "Order History" %}</a></li>
+                                    <li><a href="#">{% translate "Order Tracking" %}</a></li>
+                                    <li><a href="#">{% translate "Best Seller" %}</a></li>
+                                    <li><a href="#">{% translate "New Arrivals" %}</a></li>
                                 </ul>
                                 <ul>
-                                    <li><a href="#">Location</a></li>
-                                    <li><a href="#">Affiliates</a></li>
-                                    <li><a href="#">Contact</a></li>
-                                    <li><a href="#">Carrer</a></li>
-                                    <li><a href="#">Faq</a></li>
+                                    <li><a href="#">{% translate "Location" %}</a></li>
+                                    <li><a href="#">{% translate "Affiliates" %}</a></li>
+                                    <li><a href="#">{% translate "Contact" %}</a></li>
+                                    <li><a href="#">{% translate "Carrer" %}</a></li>
+                                    <li><a href="#">{% translate "Faq" %}</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -870,7 +901,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="footer-bottom">
-                            <p class="footer-copytext">&copy;  All Copyrights Reserved by <a target="_blank" href="https://www.facebook.com/Deadlymind.x/">DeadlyMind</a></p>
+                            <p class="footer-copytext">&copy;  {% translate "All Copyrights Reserved by" %} <a target="_blank" href="https://www.facebook.com/Deadlymind.x/">DeadlyMind</a></p>
                             <div class="footer-card">
                                 <a href="#"><img src="images/payment/jpg/01.jpg" alt="payment"></a>
                                 <a href="#"><img src="images/payment/jpg/02.jpg" alt="payment"></a>
@@ -888,27 +919,52 @@
 
 
         <!--=====================================
-                    JS LINK PART START
+                    JS en LINK PART START
         =======================================-->
         <!-- VENDOR -->
-        <script src="{% static 'en/vendor/bootstrap/jquery-1.12.4.min.js' %}"></script>
-        <script src="{% static 'en/vendor/bootstrap/popper.min.js' %}"></script>
-        <script src="{% static 'en/vendor/bootstrap/bootstrap.min.js' %}"></script>
-        <script src="{% static 'en/vendor/countdown/countdown.min.js' %}"></script>
-        <script src="{% static 'en/vendor/niceselect/nice-select.min.js' %}"></script>
-        <script src="{% static 'en/vendor/slickslider/slick.min.js' %}"></script>
-        <script src="{% static 'en/vendor/venobox/venobox.min.js' %}"></script>
+        {% if LANGUAGE_CODE == 'en' %}
+            <script src="{% static 'en/vendor/bootstrap/jquery-1.12.4.min.js' %}"></script>
+            <script src="{% static 'en/vendor/bootstrap/popper.min.js' %}"></script>
+            <script src="{% static 'en/vendor/bootstrap/bootstrap.min.js' %}"></script>
+            <script src="{% static 'en/vendor/countdown/countdown.min.js' %}"></script>
+            <script src="{% static 'en/vendor/niceselect/nice-select.min.js' %}"></script>
+            <script src="{% static 'en/vendor/slickslider/slick.min.js' %}"></script>
+            <script src="{% static 'en/vendor/venobox/venobox.min.js' %}"></script>
 
-        <!-- CUSTOM -->
-        <script src="{% static 'en/js/nice-select.js' %}"></script>
-        <script src="{% static 'en/js/countdown.js' %}"></script>
-        <script src="{% static 'en/js/accordion.js' %}"></script>
-        <script src="{% static 'en/js/venobox.js' %}"></script>
-        <script src="{% static 'en/js/slick.js' %}"></script>
-        <script src="{% static 'en/js/main.js' %}"></script>
+            <!-- CUSTOM -->
+            <script src="{% static 'en/js/nice-select.js' %}"></script>
+            <script src="{% static 'en/js/countdown.js' %}"></script>
+            <script src="{% static 'en/js/accordion.js' %}"></script>
+            <script src="{% static 'en/js/venobox.js' %}"></script>
+            <script src="{% static 'en/js/slick.js' %}"></script>
+            <script src="{% static 'en/js/main.js' %}"></script>
         <!--=====================================
-                    JS LINK PART END
+                    JS en LINK PART END
         =======================================-->
+        {% else %}
+        <!--=====================================
+                    JS ar LINK PART START
+        =======================================-->
+            <script src="{% static 'ar/vendor/bootstrap/jquery-1.12.4.min.js' %}"></script>
+            <script src="{% static 'ar/vendor/bootstrap/bootstrap.min.js' %}"></script>
+            <script src="{% static 'ar/vendor/bootstrap/popper.min.js' %}"></script>
+            <script src="{% static 'ar/vendor/countdown/countdown.min.js' %}"></script>
+            <script src="{% static 'ar/vendor/niceselect/nice-select.min.js' %}"></script>
+            <script src="{% static 'ar/vendor/slickslider/slick.min.js' %}"></script>
+            <script src="{% static 'ar/vendor/venobox/venobox.min.js' %}"></script>
+
+            <!-- CUSTOM -->
+            <script src="{% static 'ar/js/nice-select.js' %}"></script>
+            <script src="{% static 'ar/js/countdown.js' %}"></script>
+            <script src="{% static 'ar/js/accordion.js' %}"></script>
+            <script src="{% static 'ar/js/venobox.js' %}"></script>
+            <script src="{% static 'ar/js/slick.js' %}"></script>
+            <script src="{% static 'ar/js/main.js' %}"></script>
+        <!--=====================================
+                    JS ar LINK PART END
+        =======================================-->
+        {% endif %}
+
 
 
     </body>
