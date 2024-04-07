@@ -31,9 +31,9 @@ class Order(models.Model):
         # attempt to save the order
         try:
             super().save(*args, **kwargs)
-        except IntegrityError:  # catch integrity error for duplicate code
-            self.code = generate_code()  # regenerate code
-            super().save(*args, **kwargs)  # save again with the new code
+        except IntegrityError:              # catch integrity error for duplicate code
+            self.code = generate_code()     # regenerate code
+            super().save(*args, **kwargs)   # save again with the new code
 
 
 

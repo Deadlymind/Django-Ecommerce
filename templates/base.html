@@ -5,7 +5,7 @@
 
 
 <!DOCTYPE html>
-<html lang="en" {% if LANGUAGE_CODE == 'ar' %} dir="rtl" {% endif %}>
+<html lang="en"  {% if LANGUAGE_CODE == 'ar' %} dir="rtl" {% endif %}>
     <head>
         <!--=====================================
                     META TAG PART START
@@ -104,7 +104,7 @@
                             <div class="header-select">
                                 <i class="icofont-world"></i>
                                 <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
-                                    <input name="next" type="hidden" value="{{ redirect_to }}">
+                                    <input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}">
                                     <select name="language" class="select">
                                         {% get_current_language as LANGUAGE_CODE %}
                                         {% get_available_languages as LANGUAGES %}
@@ -115,7 +115,7 @@
                                             </option>
                                         {% endfor %}
                                     </select> &nbsp;
-                                    <input type="submit" value="Go">
+                                    <input type="submit" value="Go">&nbsp;
                                 </form>
 
                             </div>

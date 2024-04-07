@@ -1,5 +1,7 @@
 
 {% extends "base.html" %}
+{% load i18n %}
+
 
 {% block body %}
 
@@ -70,6 +72,7 @@
         <!--=====================================
                     SUGGEST PART START
         =======================================-->
+
         <section class="section suggest-part">
             <div class="container">
                 <ul class="suggest-slider slider-arrow">
@@ -77,7 +80,7 @@
                     <li>
                         <a class="suggest-card" href="/products/brands">
                             <img src="{{item.image.url}}" alt="suggest">
-                            <h5>{{item}} <span>{{item.product_count}} items</span></h5>
+                            <h5>{{ item }} <span>{{ item.product_count }} items</span></h5>
                         </a>
                     </li>
                     {% endfor %}

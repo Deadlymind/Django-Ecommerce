@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'accounts',
-
+    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -125,6 +125,7 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.i18n',
                 'django.contrib.messages.context_processors.messages',
                 'settings.settings_context_processor.get_settings',
                 'orders.cart_context_processor.get_cart_data',
@@ -169,7 +170,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'ar'
+LANGUAGE_CODE = 'en'
 
 TIME_ZONE = 'UTC'
 
@@ -202,6 +203,7 @@ CACHES = {
     }
 }
 
+
 AUTHENTICATION_BACKENDS= [
     'accounts.backend.EmailOrUsernameLogin',
 ]
@@ -211,9 +213,9 @@ AUTHENTICATION_BACKENDS= [
 LOCALE_PATHS = ['locale']
 
 LANGUAGES = [
-    ('en', 'English'),
-    ('fr', 'French'),
-    ('ar', 'Arabic'),
+    ('en', ('English')),
+    ('fr', ('French')),
+    ('ar', ('Arabic')),
 ]
 
 
@@ -228,3 +230,5 @@ EMAIL_HOST_PASSWORD = "vuds gkyg tsei mstr"
 EMAIL_HOST_USER = "oussamaayari2014@gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'

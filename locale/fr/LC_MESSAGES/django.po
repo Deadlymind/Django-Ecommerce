@@ -116,7 +116,7 @@ msgstr "contactez-nous"
 
 #: .\templates\base.html:135
 msgid "Login"
-msgstr "Se connecter"
+msgstr "Seconnecter"
 
 #: .\templates\base.html:138
 msgid "SignUp"
