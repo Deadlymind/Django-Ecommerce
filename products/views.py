@@ -10,104 +10,100 @@ from django.db.models import Q, F, Value, DecimalField, ExpressionWrapper
 from django.db.models.aggregates import Count, Sum, Avg,Max,Min
 from django.views.decorators.cache import cache_page
 
+from .tasks import execute_something
+import time
+
 
 # Create your views here.
 
-@cache_page(60 * 1)
 def mydebug(request):
-    # data = Product.objects.all() 
 
-    # column number ---------------------
-    # data = Product.objects.filter(price = 20)
-    # data = Product.objects.filter(price__gt = 98)
-    # data = Product.objects.filter(price__gte = 98)
-    # data = Product.objects.filter(price__lt = 98)
-    # data = Product.objects.filter(price__range = (80, 83))
+    execute_something.delay()
 
-    # relation ---------------------
-    # data = Product.objects.filter(brand__id=5)
-    # data = Product.objects.filter(brand__id__gt=600)
 
-    # text ---------------------
-    # data = Product.objects.filter(name__contains='iphone')
-    # data = Product.objects.filter(name__startswith='ipho')
-    # data = Product.objects.filter(name__endswith='one')
-    # data = Product.objects.filter(price__isnull=True)
+    return render(request, 'products/debug.html', {})
 
-    # dates ---------------------
-    # data = Product.objects.filter(date_column__year=2022)
-    # data = Product.objects.filter(date_column__month=2)
-    # data = Product.objects.filter(date_column__day=20)
 
-    # complex queries ---------------------
-    # data = Product.objects.filter(flag='New', price__gt=98)
-    # data = Product.objects.filter(flag='New').filter(price__gt=98)
+# @cache_page(60 * 1)
+# def mydebug(request):
+#     # data = Product.objects.all() 
 
-    # data = Product.objects.filter(
-    #     Q(flag='New') &
-    #     Q(price__gt=98)
-    #     )
+#     # column number ---------------------
+#     # data = Product.objects.filter(price = 20)
+#     # data = Product.objects.filter(price__gt = 98)
+#     # data = Product.objects.filter(price__gte = 98)
+#     # data = Product.objects.filter(price__lt = 98)
+#     # data = Product.objects.filter(price__range = (80, 83))
 
-    # data = Product.objects.filter(
-    # Q(flag='New') |
-    # Q(price__gt=98)
-    # )
+#     # relation ---------------------
+#     # data = Product.objects.filter(brand__id=5)
+#     # data = Product.objects.filter(brand__id__gt=600)
 
-    # Field Reference ---------------
-    # data = Product.objects.filter(quantity=F('price'))
-    # data = Product.objects.filter(quantity=F('category_id'))
+#     # text ---------------------
+#     # data = Product.objects.filter(name__contains='iphone')
+#     # data = Product.objects.filter(name__startswith='ipho')
+#     # data = Product.objects.filter(name__endswith='one')
+#     # data = Product.objects.filter(price__isnull=True)
 
-    # Order ------------------
-    # data = Product.objects.all().order_by('name') #ASCending
-    # data = Product.objects.order_by('name') 
-    # data = Product.objects.order_by('-name') #DEScending
-    # data = Product.objects.order_by('-name', 'price')
-    # data = Product.objects.filter(price__gt=80).order_by('name')
-    # data = Product.objects.order_by('name')[:10]
-    # data = Product.objects.earliest('name')
-    # data = Product.objects.latest('name')
+#     # dates ---------------------
+#     # data = Product.objects.filter(date_column__year=2022)
+#     # data = Product.objects.filter(date_column__month=2)
+#     # data = Product.objects.filter(date_column__day=20)
 
-    # limit fields -----------------------
-    # data = Product.objects.values('name', 'price')
-    # data = Product.objects.values_list('name', 'price', 'brand')
-    # data = Product.objects.only('name', 'price')
-    # data = Product.objects.defer('description', 'subtitle')
+#     # complex queries ---------------------
+#     # data = Product.objects.filter(flag='New', price__gt=98)
+#     # data = Product.objects.filter(flag='New').filter(price__gt=98)
 
-    # select related --------------
-    # data = Product.objects.select_related('brand').all() #foriegnkey, one-to-one
-    # data = Product.objects.prefetch_related('brand').all() #many to many
-    # data = Product.objects.select_related('brand').select_related('category').all()
+#     # data = Product.objects.filter(
+#     #     Q(flag='New') &
+#     #     Q(price__gt=98)
+#     #     )
 
-    # aggregation Count, Min, Max, Sum, average ---------------------
-    # data = Product.objects.aggregate(
-    #     Avg('price'),
-    #     Count('id')
-    #     )
+#     # data = Product.objects.filter(
+#     # Q(flag='New') |
+#     # Q(price__gt=98)
+#     # )
+
+#     # Field Reference ---------------
+#     # data = Product.objects.filter(quantity=F('price'))
+#     # data = Product.objects.filter(quantity=F('category_id'))
+
+#     # Order ------------------
+#     # data = Product.objects.all().order_by('name') #ASCending
+#     # data = Product.objects.order_by('name') 
+#     # data = Product.objects.order_by('-name') #DEScending
+#     # data = Product.objects.order_by('-name', 'price')
+#     # data = Product.objects.filter(price__gt=80).order_by('name')
+#     # data = Product.objects.order_by('name')[:10]
+#     # data = Product.objects.earliest('name')
+#     # data = Product.objects.latest('name')
+
+#     # limit fields -----------------------
+#     # data = Product.objects.values('name', 'price')
+#     # data = Product.objects.values_list('name', 'price', 'brand')
+#     # data = Product.objects.only('name', 'price')
+#     # data = Product.objects.defer('description', 'subtitle')
+
+#     # select related --------------
+#     # data = Product.objects.select_related('brand').all() #foriegnkey, one-to-one
+#     # data = Product.objects.prefetch_related('brand').all() #many to many
+#     # data = Product.objects.select_related('brand').select_related('category').all()
+
+#     # aggregation Count, Min, Max, Sum, average ---------------------
+#     # data = Product.objects.aggregate(
+#     #     Avg('price'),
+#     #     Count('id')
+#     #     )
     
-    # annotation ---------------
-    # data = Product.objects.annotate(is_new=Value(0))
-    # data = Product.objects.annotate(
-    # price_with_tax=ExpressionWrapper(F('price') * 1.15, output_field=DecimalField())
-    # )
+#     # annotation ---------------
+#     # data = Product.objects.annotate(is_new=Value(0))
+#     # data = Product.objects.annotate(
+#     # price_with_tax=ExpressionWrapper(F('price') * 1.15, output_field=DecimalField())
+#     # )
 
-    data = Product.objects.all()
+#     data = Product.objects.all()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    return render(request, 'products/debug.html',{'data':data})
+#     return render(request, 'products/debug.html',{'data':data})
 
 
 
@@ -146,8 +142,6 @@ class BrandDetail(ListView):
     model = Product
     template_name = 'products/brand_detail.html'
     paginate_by = 50
-
-
 
     def get_queryset(self):
         brand = Brand.objects.get(slug=self.kwargs['slug'])

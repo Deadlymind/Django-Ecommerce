@@ -32,7 +32,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'accounts',
-    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -137,7 +136,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'project.wsgi.application'
 
 
-# Database
+# db settings sqlite
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
@@ -147,6 +146,17 @@ DATABASES = {
     }
 }
 
+# db settings postgres
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": "amazon",
+#         "USER": "postgres",
+#         "PASSWORD": "postgres",
+#         "HOST": "db",
+#         "PORT": "5432",
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -196,12 +206,24 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379",
-    }
-}
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django.core.cache.backends.redis.RedisCache",
+#         "LOCATION": "redis://127.0.0.1:6379",
+#     }
+# }
+
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django.core.cache.backends.redis.RedisCache",
+#         "LOCATION": "redis://redis:6379/0",
+#     }
+# }
+
+# Celery & redis
+CELERY_BROKER_URL = "redis://127.0.0.1:6379"
+CELERY_BACKEND_RESULTS = "redis://127.0.0.1:6379"
+
 
 
 AUTHENTICATION_BACKENDS= [
