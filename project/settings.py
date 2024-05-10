@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-r)q8d4r=cjd#huqm$lb8ulc_q$_$w-a1g^yh-hkhgd(v6t8ky6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["django-ecommerce-eaol.onrender.com"]
 
 
 # Application definition
@@ -55,6 +56,9 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
     'dj_rest_auth',
+    'django_extensions',
+
+
 
 
     #apps
@@ -213,19 +217,19 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #     }
 # }
 
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://redis:6379/0",
-    }
-}
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django.core.cache.backends.redis.RedisCache",
+#         "LOCATION": "redis://redis:6379/0",
+#     }
+# }
 
 # Celery & redis
-# CELERY_BROKER_URL = "redis://127.0.0.1:6379"
-# CELERY_BACKEND_RESULTS = "redis://127.0.0.1:6379"
+CELERY_BROKER_URL = "redis://127.0.0.1:6379"
+CELERY_BACKEND_RESULTS = "redis://127.0.0.1:6379"
 
-CELERY_BROKER_URL = "redis://redis:6379/0"
-CELERY_BACKEND_RESULTS = "redis://redis:6379/0"
+# CELERY_BROKER_URL = "redis://redis:6379/0"
+# CELERY_BACKEND_RESULTS = "redis://redis:6379/0"
 
 
 
@@ -256,5 +260,4 @@ EMAIL_HOST_PASSWORD = "vuds gkyg tsei mstr"
 EMAIL_HOST_USER = "oussamaayari2014@gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'

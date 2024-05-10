@@ -155,10 +155,10 @@
                         {% if user.is_authenticated %}
                             <img src="images/user.png" alt="user">
                         {% else %}
-                            <a href="#" >{% translate "Login" %}</a>
+                            <a href="/accounts/login/" >{% translate "Login" %}</a>
                             <span class="separator">||</span>
 
-                            <a href="#">{% translate "SignUp" %}</a>
+                            <a href="/accounts/signup/">{% translate "SignUp" %}</a>
                         {% endif %}
                     </a>
 
